@@ -21,7 +21,7 @@ require(['lib/qricht'], (qricht) => {
     let state = null
     try {
       if (window.location.hash.length > 1) {
-        state = JSON.parse(window.location.hash.substr(1))
+        state = JSON.parse(window.atob(window.location.hash.substr(1)))
       }
     } catch (e) {
       $outElement.innerHTML = 'Error while parsing URL state'
@@ -44,7 +44,7 @@ require(['lib/qricht'], (qricht) => {
   const onSubmit = (event) => {
     event && event.preventDefault()
     const form = parseForm()
-    window.history.pushState(form, null, '#' + JSON.stringify(form))
+    window.history.pushState(form, null, '#' + window.btoa(JSON.stringify(form)))
     computeValues(form)
   }
 
