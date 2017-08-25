@@ -1,18 +1,157 @@
-<!doctype html>
-<head>
-    <meta charset="utf8">
-    <title>Qricht Web</title>
-</head>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf8">
+        <title>Qricht Web</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="An utility to compute camera orientation for multi-station meteor observations">
+        <meta name="author" content="Alex Georoceanu (alex@navigheaa.ro)">
+        <meta name="author" content="Marc de Lignie (m.c.delignie@xs4all.nl)">
+        <style>
+            #stationsContainer .row:nth-child(2) > .col-4 .input-group-btn,
+            #stationsContainer .row:nth-child(3) > .col-4 .input-group-btn {
+                display: none;
+            }
+            #stationsContainer .row:nth-child(2) > .col-4 .form-control,
+            #stationsContainer .row:nth-child(3) > .col-4 .form-control {
+                border-radius: 4px
+            }
+        </style>
+    </head>
 
-<section id="input"></section>
-<section id="output" style="font-family: monospace; white-space: pre;"></section>
+    <body>
+    <div class="container">
+        <h1 class="pt-3 pb-2">QRicht Web</h1>
 
-<script src="lib/require.js"></script>
-<script>
-    require(['qricht'], function (qricht) {
-        qricht.main();
-    });
-</script>
-<!-- 
-<script src="astro.js"></script>
-<script src="qricht.js"></script> -->
+        <section>
+            <form id="form" validate>
+                <fieldset>
+                    <legend>Dates</legend>
+                    <div class="row">
+                        <div class="col mt-1">
+                            <div class="input-group">
+                                <span class="input-group-addon d-none d-md-flex">Start date</span>
+                                <input 
+                                    required
+                                    name="dS"
+                                    min="1"
+                                    type="date" 
+                                    pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col mt-1">
+                            <div class="input-group">
+                                <span class="input-group-addon d-none d-md-flex">End date</span>
+                                <input 
+                                    required
+                                    name="dE"
+                                    type="date" 
+                                    pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                                    class="form-control" 
+                                    placeholder="End date">
+                                <span class="input-group-addon d-none d-md-flex">YYYY-MM-DD</span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Aiming point</legend>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <input 
+                                    required
+                                    name="h"
+                                    min="1"
+                                    type="number" 
+                                    class="form-control" 
+                                    placeholder="Height">
+                                <span class="input-group-addon d-none d-md-flex">km</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <input 
+                                    required
+                                    name="aLat"
+                                    pattern="^\d+ \d+' \d+&quot;$"
+                                    type="text" 
+                                    class="form-control" 
+                                    placeholder="Latitude">
+                                <span class="input-group-addon d-none d-md-flex">dd dd' dd"</span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <input 
+                                    required
+                                    name="aLon"
+                                    pattern="^\d+ \d+' \d+&quot;$"
+                                    type="text" 
+                                    class="form-control" 
+                                    placeholder="Longitude">
+                                <span class="input-group-addon d-none d-md-flex">dd dd' dd"</span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset id="stationsContainer">
+                    <legend>Stations</legend>
+                </fieldset>
+                <fieldset>
+                    <div class="d-flex justify-content-between mt-2">
+                        <button type="button" class="btn btn-secondary" id="addStationBtn">Add station</button>
+                        <button type="submit" class="btn btn-primary">Compute values</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+        <section id="output" style="font-family: monospace; white-space: pre; overflow: auto"></section>
+    </div>
+
+    <script type="x/template" id="stationTemplate">
+        <div class="col-4">
+            <div class="input-group">
+                <input
+                    required
+                    type="text"
+                    name="sName[]"
+                    class="form-control"
+                    placeholder="Station Name">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger" title="Delete">x</button>
+                </span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="input-group">
+                <input
+                    required
+                    name="sLat[]"
+                    pattern="^\d+ \d+' \d+&quot;$"
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Latitude">
+                <span class="input-group-addon d-none d-md-flex">dd dd' dd"</span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="input-group">
+                <input 
+                    required
+                    name="sLon[]"
+                    pattern="^\d+ \d+' \d+&quot;$"
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Longitude">
+                <span class="input-group-addon d-none d-md-flex">dd dd' dd"</span>
+            </div>
+        </div>
+    </script>
+
+    <script src="lib/require.js"></script>
+    <script src="main.js"></script>
+    </body>
+</html>
