@@ -76,7 +76,7 @@ require(['lib/qricht'], (qricht) => {
 
   function initForm (state) {
     // init page add the stations to the DOM
-    if (typeof state === 'undefined') {
+    if (!state) {
       state = parseURLState()
     }
     if (state && state['sName[]'].length > 2) {
