@@ -5,7 +5,7 @@ const OfflinePlugin = require('offline-plugin')
 
 module.exports = {
   entry: {
-    polyfills: ['element-closest', 'string.prototype.endswith'],
+    polyfills: ['element-closest'],
     main: './app/main.js'
   },
   module: {

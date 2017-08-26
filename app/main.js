@@ -39,7 +39,7 @@ const parseURLState = () => {
 const parseForm = () => {
   let values = {}
   CONTROLS.forEach(c => {
-    if (c.endsWith('[]')) {
+    if (c.substr(-2) === '[]') {
       values[c] = []
       for (let i = 0; i < $form.elements[c].length; i++) {
         values[c].push($form.elements[c][i].value)
@@ -108,7 +108,7 @@ function initForm (state) {
   // hydrate the form if we have some URL state
   if (state) {
     CONTROLS.forEach(c => {
-      if (c.endsWith('[]')) {
+      if (c.substr(-2) === '[]') {
         state[c].forEach((val, i) => { $form.elements[c][i].value = val })
       } else {
         $form.elements[c].value = state[c]
