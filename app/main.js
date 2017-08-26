@@ -1,4 +1,5 @@
-require(['lib/qricht'], (qricht) => {
+/* global define */
+define('app/main', ['lib/qricht'], (qricht) => {
   // get the template to generate stations
   const $ = document.querySelectorAll.bind(document)
   const CONTROLS = ['dS', 'dE', 'h', 'aLat', 'aLon', 'sName[]', 'sLat[]', 'sLon[]']
