@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const OfflinePlugin = require('offline-plugin')
 
 module.exports = {
   entry: {
@@ -14,10 +15,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['./docs/*.js']),
     new HtmlWebpackPlugin({
       template: './app/index.html'
     }),
-    new CleanWebpackPlugin(['./docs/*.js'])
+    new OfflinePlugin()
   ],
   output: {
     filename: '[name].[chunkhash].js',

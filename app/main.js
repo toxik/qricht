@@ -1,5 +1,11 @@
 import qricht from '../lib/qricht'
 
+import * as offline from 'offline-plugin/runtime'
+
+if (process.env.NODE_ENV !== 'development') {
+  offline.install()
+}
+
 // get the template to generate stations
 const $ = document.querySelectorAll.bind(document)
 const CONTROLS = ['dS', 'dE', 'h', 'aLat', 'aLon', 'sName[]', 'sLat[]', 'sLon[]']
@@ -33,7 +39,10 @@ const parseForm = () => {
   let values = {}
   CONTROLS.forEach(c => {
     if (c.endsWith('[]')) {
-      values[c] = [...$form.elements[c]].map(el => el.value)
+      values[c] = []
+      for (let i = 0; i < $form.elements[c].length; i++) {
+        values[c].push($form.elements[c][i].value)
+      }
     } else {
       values[c] = $form.elements[c].value
     }
@@ -82,12 +91,14 @@ function initForm (state) {
   }
   if (state && state['sName[]'].length > 2) {
     stations = state['sName[]'].length
+  } else {
+    stations = 2
   }
 
   // remove any existing stations
   const rows = $stationsContainer.querySelectorAll('.row')
   for (let i = 0; i < rows.length; i++) {
-    $stationsContainer.removeChild($stationsContainer[i])
+    $stationsContainer.removeChild(rows[i])
   }
 
   for (let i = 0; i < stations; i += 1) {

@@ -25,6 +25,7 @@
     "css-loader": "^0.28.5",
     "element-closest": "^2.0.2",
     "html-webpack-plugin": "^2.30.1",
+    "offline-plugin": "^4.8.3",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.5.5",
