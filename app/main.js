@@ -1,8 +1,6 @@
 import qricht from '../lib/qricht'
-import './bootstrap.4.0.0-beta.css'
 
 import * as offline from 'offline-plugin/runtime'
-
 if (process.env.NODE_ENV !== 'development') {
   offline.install()
 }

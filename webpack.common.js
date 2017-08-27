@@ -19,7 +19,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './app/index.html'
     }),
-    new OfflinePlugin()
+    new OfflinePlugin({
+      externals: ['./bootstrap.4.0.0-beta.css']
+    })
   ],
   output: {
     filename: '[name].[chunkhash].js',
