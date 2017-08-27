@@ -1,11 +1,11 @@
 CACHE MANIFEST
-#ver:8/27/2017, 5:35:32 PM
+#ver:8/27/2017, 10:01:32 PM
 #plugin:4.8.3
 
 CACHE:
-../main.46cb18ae6805297bfd27.js
+../main.6ef207d8c01f3d81ce1f.js
+../style.css
 ../
-../bootstrap.4.0.0-beta.css
 
 NETWORK:
 *

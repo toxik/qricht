@@ -1,5 +1,7 @@
 import qricht from '../lib/qricht'
 
+import './main.scss'
+
 import * as offline from 'offline-plugin/runtime'
 if (process.env.NODE_ENV !== 'development') {
   offline.install()
