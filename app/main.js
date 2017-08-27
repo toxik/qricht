@@ -53,6 +53,7 @@ const onSubmit = (event) => {
   event && event.preventDefault()
   const form = parseForm()
   window.history.pushState(form, null, '#' + window.btoa(JSON.stringify(form)))
+  if (typeof window.ga === 'function') window.ga('send', 'event', 'computeUrl', window.location.hash.substr(1))
   computeValues(form)
 }
 
