@@ -1,11 +1,10 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const PolyfillInjectorPlugin = require('webpack-polyfill-injector')
 const OfflinePlugin = require('offline-plugin')
 
 module.exports = {
   entry: {
-    polyfills: ['element-closest'],
     main: './app/main.js'
   },
   module: {
@@ -15,7 +14,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['./docs/*.js']),
+    new PolyfillInjectorPlugin({
+      polyfills: ['Element.prototype.closest'],
+      service: true
+    }),
     new HtmlWebpackPlugin({
       template: './app/index.html'
     }),
