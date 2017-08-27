@@ -4,6 +4,7 @@ const PolyfillInjectorPlugin = require('webpack-polyfill-injector')
 const OfflinePlugin = require('offline-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlCriticalPlugin = require('html-critical-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -42,7 +43,7 @@ module.exports = {
     }]
   },
   plugins: [
-    new CleanWebpackPlugin(['docs/*.js']),
+    new CleanWebpackPlugin(['docs/*.js', 'docs/*.css']),
     new PolyfillInjectorPlugin({
       polyfills: ['Element.prototype.closest'],
       service: true
@@ -51,7 +52,20 @@ module.exports = {
       template: './app/index.html'
     }),
     new OfflinePlugin(),
-    new ExtractTextPlugin('style.css')
+    new ExtractTextPlugin('style.css'),
+    new HtmlCriticalPlugin({
+      base: path.join(path.resolve(__dirname), 'docs/'),
+      src: 'index.html',
+      dest: 'index.html',
+      inline: true,
+      minify: true,
+      extract: true,
+      width: 375,
+      height: 565,
+      penthouse: {
+        blockJSRequests: false
+      }
+    })
   ],
   output: {
     filename: '[name].[chunkhash].js',
