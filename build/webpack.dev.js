@@ -10,7 +10,6 @@ module.exports = merge(common, {
     contentBase: './docs',
     host: '0.0.0.0',
     disableHostCheck: true
-    // hot: true
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -18,6 +17,5 @@ module.exports = merge(common, {
         'NODE_ENV': JSON.stringify('development')
       }
     })
-    // new webpack.HotModuleReplacementPlugin()
   ]
 })
